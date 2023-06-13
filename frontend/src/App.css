@@ -15,6 +15,7 @@
   --color-1c1c1b: #1c1c1b;
   --color-000000: #000000;
   --color-ffffff: #ffffff;
+  --color-6781de: #6781de;
 }
 body {
   font-family: "Rubik", sans-serif;
@@ -26,6 +27,26 @@ a {
 .gap-15 {
   gap: 15px;
 }
+.button {
+  background-color: var(--color-000000);
+  color: white;
+  font-size: 14px;
+  padding: 13px 33px;
+  border-radius: 25px;
+}
+.button:hover {
+  background-color: var(--color-6781de);
+  color: #131921;
+}
+.form-control:focus {
+  box-shadow: none;
+  border-color: inherit;
+}
+/* home wrapper 2 */
+.home-wrapper-2 {
+  background-color: var(--color-f5f5f7);
+}
+/* home wrapper 2 ends */
 /* Header Part */
 .logo-img {
   border-radius: 60%;
@@ -49,7 +70,7 @@ a {
   box-shadow: none;
 }
 .menu-bottom .dropdown-menu {
-  background-color: var(--color-131921);
+  background-color: var(--color-000000);
   width: 100%;
   transform: translate3d(0px, 57px, 0px) !important;
 }
@@ -77,3 +98,44 @@ footer .input-group-text {
   padding: 8px 17px;
 }
 /*Footer Part End Here*/
+/*  auth card */
+
+.auth-card {
+  padding: 20px;
+  background-color: var(--color-febd69);
+  width: 500px;
+  margin: 30px auto;
+  border-radius: 10px;
+}
+.auth-card h3 {
+  font-size: 19px;
+  font-weight: 500;
+  color: var(--color-000000);
+}
+.auth-card p {
+  font-size: 13px;
+  color: var(--color-000000);
+}
+.auth-card .form-control {
+  height: 50px;
+  background-color: var(--color-f5f5f7);
+  color: var(--color-777777);
+  font-size: 14px;
+  border-radius: 10px;
+  border-color: transparent;
+}
+.auth-card a {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--color-1c1c1b);
+}
+.signup {
+  background-color: var(--color-6781de);
+  color: black;
+  border: none;
+}
+.signup:hover {
+  background-color: var(--color-000000);
+  color: white;
+}
+/*  auth card  ends*/
