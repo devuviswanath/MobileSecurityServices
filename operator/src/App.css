@@ -36,3 +36,26 @@
     transform: rotate(360deg);
   }
 }
+
+.header {
+  margin-left: auto;
+  color: black;
+}
+
+.footer {
+  margin: auto;
+}
+
+.home__bg {
+  background-image: url(../src/images/mss5.jpg);
+  height: 92vh;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+}
+
+.home-message-icon {
+  margin-left: 10px;
+  display: inline-block;
+}

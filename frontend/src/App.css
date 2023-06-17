@@ -145,6 +145,52 @@ footer .input-group-text {
   color: white;
 }
 /*  auth card  ends*/
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.home__bg {
+  background-image: url(https://th.bing.com/th/id/R.eb37f8a1b9b7ac0d2cd3a9e1e0244c3e?rik=H%2fBr8uE4ZnkW4A&pid=ImgRaw&r=0);
+  border-image: auto;
+  height: 82vh;
+  width: 106vh;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+}
+
+.home__bg1 {
+  background-image: url(https://ae01.alicdn.com/kf/HTB1B2Kyb.GF3KVjSZFoq6zmpFXa4/Carbon-Monoxide-Gas-Detector-Suitable-install-in-the-kitchen-Beep-sound-alarm-display-gas-concentration-Protect.jpg);
+  border-image: auto;
+  height: 82vh;
+  width: 106vh;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+}
+
+.home__bg2 {
+  background-image: url(https://th.bing.com/th/id/OIP.bOT9vRcr3486kaFfiZHlFAAAAA?pid=ImgDet&rs=1);
+  border-image: auto;
+  height: 82vh;
+  width: 106vh;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+}
+
 /* Cart Page */
 .cart-header,
 .cart-data {
