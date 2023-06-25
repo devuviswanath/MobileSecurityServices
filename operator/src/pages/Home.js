@@ -2,8 +2,6 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import "../components/Header.js";
-
-
 function Home() {
     return (
         <Row>
@@ -22,8 +20,6 @@ function Home() {
                 </div>
             </Col>
             <Col md={6} className="home__bg"></Col>
-
-
         </Row>
         
 

@@ -36,7 +36,7 @@
     transform: rotate(360deg);
   }
 }
-
+/*header and footer */
 .header {
   margin-left: auto;
   color: black;
@@ -46,6 +46,9 @@
   margin: auto;
 }
 
+/*header and footer ends*/
+
+/*home page*/
 .home__bg {
   background-image: url(../src/images/mss5.jpg);
   height: 92vh;
@@ -59,3 +62,16 @@
   margin-left: 10px;
   display: inline-block;
 }
+
+/*home page ends*/
+
+/*messageForm*/
+.message-output {
+  height: 80vh;
+  border: 1px solid lightgray;
+  overflow-y: scroll;
+  margin-bottom: 20px;
+  
+
+}
+/*messageForm ends*/

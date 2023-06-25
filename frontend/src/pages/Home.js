@@ -6,8 +6,7 @@ import { LinkContainer } from "react-router-bootstrap";
 function Home() {
   return (
     <Row>
-      <img src="https://thumbor.forbes.com/thumbor/fit-in/1200x0/filters:format(jpg)/https:%2F%2Fspecials-images.forbesimg.com%2Fimageserve%2F633223586%2F0x0.jpg%3Ffit%3Dscale"  height={'200vh'} width={'100vh'} tex/>
-      
+      <div className="bg"></div>
       <Col md={6} className="d-flex flex-direction-column align-items-center justify-content-center">
         <div>
 
