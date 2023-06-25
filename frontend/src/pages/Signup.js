@@ -1,7 +1,7 @@
 import React from "react";
-import Meta from "../componenets/Meta";
-import Container from "../componenets/Container";
-import CustomInput from "../componenets/CustomInput";
+import Meta from "../components/Meta";
+import Container from "../components/Container";
+import CustomInput from "../components/CustomInput";
 
 const Signup = () => {
   return (
