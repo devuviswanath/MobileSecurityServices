@@ -1,22 +1,22 @@
 import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
-import serviceService from "./servicesService";
+import productService from "./productService";
 
-export const getAllServices = createAsyncThunk(
-  "service/getAllServices",
-  async (query, thunkAPI) => {
+export const getAllProducts = createAsyncThunk(
+  "product/getAllProducts",
+  async (thunkAPI) => {
     try {
-      return await serviceService.getAllServices(query);
+      return await productService.getProducts();
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
   }
 );
 
-export const getAService = createAsyncThunk(
-  "service/getAService",
+export const getAProduct = createAsyncThunk(
+  "product/getAProduct",
   async (id, thunkAPI) => {
     try {
-      return await serviceService.getSingleService(id);
+      return await productService.getSingleProduct(id);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -25,45 +25,45 @@ export const getAService = createAsyncThunk(
 
 export const resetState = createAction("Reset_all");
 
-const serviceState = {
-  service: "",
+const productState = {
+  product: "",
   isError: false,
   isLoading: false,
   isSuccess: false,
   message: "",
 };
-export const serviceSlice = createSlice({
-  name: "service",
-  initialState: serviceState,
+export const productSlice = createSlice({
+  name: "product",
+  initialState: productState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getAllServices.pending, (state) => {
+      .addCase(getAllProducts.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getAllServices.fulfilled, (state, action) => {
+      .addCase(getAllProducts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.service = action.payload;
+        state.product = action.payload;
       })
-      .addCase(getAllServices.rejected, (state, action) => {
+      .addCase(getAllProducts.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
       })
-      .addCase(getAService.pending, (state) => {
+      .addCase(getAProduct.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getAService.fulfilled, (state, action) => {
+      .addCase(getAProduct.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.singleservice = action.payload;
-        state.message = "Service fetched";
+        state.singleproduct = action.payload;
+        state.message = "Product fetched";
       })
-      .addCase(getAService.rejected, (state, action) => {
+      .addCase(getAProduct.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
@@ -71,4 +71,4 @@ export const serviceSlice = createSlice({
       });
   },
 });
-export default serviceSlice.reducer;
+export default productSlice.reducer;

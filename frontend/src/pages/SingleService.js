@@ -1,45 +1,56 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import Meta from "../components/Meta";
 import Container from "../components/Container";
-import Camera from "../images/security-cameras.jpg";
-
+import { getAService } from "../features/services/servicesSlice";
+import { useDispatch, useSelector } from "react-redux";
 const SingleService = () => {
+  const dispatch = useDispatch();
+  const serviceState = useSelector((state) => state?.service?.singleservice);
+  const location = useLocation();
+  const getServiceId = location.pathname.split("/")[2];
+
+  useEffect(() => {
+    dispatch(getAService(getServiceId));
+  }, []);
+  console.log("servicestate", serviceState);
+
   return (
     <>
       <Meta title={"Product Name"} />
       <Container class1="main-product-wrapper py-5 home-wrapper-2">
         <div className="row">
-          <div className="col-12 ">
+          <div className="col-6">
             <div className="main-product-image">
-              <img src={Camera} className="img-fluid" alt="" />
+              <img
+                src={serviceState?.images[0]?.url}
+                className="img-fluid"
+                alt=""
+              />
             </div>
           </div>
-          <div className="col-12">
-            <div className="main-product-details">
+          <div className="col-6 main-product-details">
+            <div className="details">
               <div className="border-bottom">
                 <h3 className="title" style={{ color: "black" }}>
-                  Service Title
+                  {serviceState?.title}
                 </h3>
               </div>
-              <p className="product-data">
-                Free shipping and returns available on all orders! <br /> We
-                ship all US domestic orders within
+              <p className="product-data">{serviceState?.description}</p>
+              <p className="price">
+                Service Price Per-Month: $ {serviceState?.tem_price}....
+                <Link to="/OrderdServices" className="link">
+                  Download service info
+                </Link>
               </p>
-              <div className=" py-3">
-                <div className="d-flex gap-10 flex-column  my-3">
-                  <h3 className="product-heading">Contract & Price :</h3>
-                  <p className="product-data">
-                    Free shipping and returns available on all orders! <br /> We
-                    ship all US domestic orders within
-                    <b>5-10 business days!</b>
-                  </p>
-                </div>
-                <div className="d-flex align-items-center gap-15 flex-row mt-2 mb-3">
-                  <Link to="/CheckoutService/:id" className="button">
-                    CheckOut Our Service
-                  </Link>
-                </div>
+
+              <div className="py-3">
+                <Link
+                  to="/CheckoutService/:id"
+                  className="button border border-dark"
+                >
+                  CheckOut Our Service
+                </Link>
               </div>
             </div>
           </div>

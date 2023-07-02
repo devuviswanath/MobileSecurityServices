@@ -34,25 +34,25 @@ a {
   gap: 30px;
 }
 .button {
-  background-color: var(--color-000000);
-  color: white;
+  background-color: var(--color-ffffff);
+  color: black;
   font-size: 14px;
   padding: 13px 33px;
   border-radius: 25px;
 }
 .button:hover {
-  background-color: var(--color-6781de);
-  color: #131921;
+  background-color: var(--color-000000);
+  color: white;
+}
+.test {
+  border-color: #000000;
+  border-radius: 25px;
 }
 .form-control:focus {
   box-shadow: none;
   border-color: inherit;
 }
-/* home wrapper 2 */
-.home-wrapper-2 {
-  background-color: var(--color-f5f5f7);
-}
-/* home wrapper 2 ends */
+
 /* Header Part */
 .logo-img {
   border-radius: 60%;
@@ -108,7 +108,7 @@ footer .input-group-text {
 
 .auth-card {
   padding: 20px;
-  background-color: var(--color-febd69);
+  background-color: var(--color-000000);
   width: 500px;
   margin: 30px auto;
   border-radius: 10px;
@@ -136,7 +136,7 @@ footer .input-group-text {
   color: var(--color-1c1c1b);
 }
 .signup {
-  background-color: var(--color-6781de);
+  background-color: var(--color-ffffff);
   color: black;
   border: none;
 }
@@ -144,51 +144,18 @@ footer .input-group-text {
   background-color: var(--color-000000);
   color: white;
 }
+
 /*  auth card  ends*/
-.App-link {
-  color: #61dafb;
+/* home wrapper  */
+.home-wrapper-2 {
+  background-color: var(--color-f5f5f7);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.home__bg {
-  background-image: url(https://th.bing.com/th/id/R.eb37f8a1b9b7ac0d2cd3a9e1e0244c3e?rik=H%2fBr8uE4ZnkW4A&pid=ImgRaw&r=0);
-  border-image: auto;
-  height: 82vh;
-  width: 106vh;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  overflow-x: hidden;
-}
-
-.home__bg1 {
-  background-image: url(https://ae01.alicdn.com/kf/HTB1B2Kyb.GF3KVjSZFoq6zmpFXa4/Carbon-Monoxide-Gas-Detector-Suitable-install-in-the-kitchen-Beep-sound-alarm-display-gas-concentration-Protect.jpg);
-  border-image: auto;
-  height: 82vh;
-  width: 106vh;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  overflow-x: hidden;
-}
-
-.home__bg2 {
-  background-image: url(https://th.bing.com/th/id/OIP.bOT9vRcr3486kaFfiZHlFAAAAA?pid=ImgDet&rs=1);
-  border-image: auto;
-  height: 82vh;
-  width: 106vh;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  overflow-x: hidden;
+/* home wrapper ends */
+.card-wrapper {
+  background-color: white;
+  box-shadow: 0 0 10px #0000001a;
+  padding: 15px;
 }
 
 /* Cart Page */
@@ -290,19 +257,13 @@ footer .input-group-text {
   width: 100%;
 }
 .product-card .product-image {
-  height: 270px;
-}
-.product-card .product-image img {
-  object-fit: contain;
+  height: 250px;
 }
 
-.product-card .product-details h6 {
-  color: var(--color-bf4800);
-  font-size: 13px;
-}
 .product-card .product-details h5 {
   font-size: 15px;
   color: var(--color-1c1c1b);
+  height: 20px;
 }
 .product-card .product-details p.price {
   font-size: 16px;
@@ -313,16 +274,17 @@ footer .input-group-text {
   color: var(--color-777777);
   margin-right: 20px;
 }
-
-/* Product Card ends here */
-
+/* product card ends */
 /* Single Service / Single ProductPage */
 
 .main-product-image {
   padding: 30px 20px;
   background-color: white;
+  border-radius: 10px;
 }
-
+.main-product-image > div {
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
 .main-product-image img {
   width: 100% !important;
   height: 300px !important;
@@ -332,23 +294,26 @@ footer .input-group-text {
 .main-product-details {
   padding: 30px 20px;
   background-color: white;
-
-  font-size: 14px;
-  color: var(--color-777777);
+  border-radius: 10px;
 }
-.border-bottom {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-}
-
-.product-heading {
-  font-size: 14px;
+.main-product-details h3.title {
+  font-size: 18px;
+  font-weight: 600;
   color: var(--color-1c1c1b);
-  margin-bottom: 0px;
+}
+.main-product-details p.price {
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
 }
 .product-data {
   font-size: 13px;
   columns: var(--color-777777);
   margin-bottom: 0px;
+}
+.border-bottom {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 }
 
 /* Single Service / Single Product Page Ends */

@@ -5,6 +5,7 @@ import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Cart from "./pages/Cart";
+import Chat from "./pages/Chat";
 import ContactUs from "./pages/ContactUs";
 import CheckoutProducts from "./pages/CheckoutProducts";
 import CheckoutService from "./pages/CheckoutService";
@@ -31,6 +32,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="About" element={<About />} />
             <Route path="Cart" element={<Cart />} />
+            <Route path="Chat" element={<Chat />} />
             <Route path="ContactUs" element={<ContactUs />} />
             <Route path="CheckoutProducts" element={<CheckoutProducts />} />
             <Route path="CheckoutService/:id" element={<CheckoutService />} />
@@ -44,8 +46,8 @@ function App() {
             <Route path="Profile" element={<Profile />} />
             <Route path="ResetPassword" element={<ResetPassword />} />
             <Route path="Signup" element={<Signup />} />
-            <Route path="SingleService" element={<SingleService />} />
-            <Route path="SingleProduct" element={<SingleProduct />} />
+            <Route path="SingleService/:id" element={<SingleService />} />
+            <Route path="SingleProduct/:id" element={<SingleProduct />} />
             <Route path="TermsAndConditions" element={<TermsAndConditions />} />
           </Route>
         </Routes>
