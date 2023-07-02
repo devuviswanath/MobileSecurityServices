@@ -1,9 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-<<<<<<< Updated upstream
-=======
 // import './bootstrap.min.css'
->>>>>>> Stashed changes
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";

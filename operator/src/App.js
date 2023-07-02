@@ -16,10 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />} />
           <Route index element={<Home />} />
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
           <Route path="/login" element={<Login />} />
           <Route path="/chat" element={<Chat />} />
         </Routes>
