@@ -1,8 +1,7 @@
-import React from 'react';
-import Container from '../componenets/Container';
+import React from "react";
+import Container from "../components/Container";
 import { AiOutlineHome, AiOutlineMail } from "react-icons/ai";
 import { BiPhoneCall, BiInfoCircle } from "react-icons/bi";
-
 
 export default function ContactUs() {
   // const [name, setName] = useState('');
@@ -24,52 +23,30 @@ export default function ContactUs() {
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
             </div>
-            <div className='form'>
-              <h2 className='heading'> Contact </h2>
+            <div className="form">
+              <h2 className="heading"> Contact </h2>
 
               <div className="form-control">
-                <input
-                  type="text"
-
-                  placeholder="Name"
-                  name="name"
-                />
+                <input type="text" placeholder="Name" name="name" />
               </div>
               <div className="form-control">
-                <input
-                  type="email"
-
-                  placeholder="Email"
-                  name="email"
-
-                />
+                <input type="email" placeholder="Email" name="email" />
               </div>
               <div className="form-control">
-                <input
-                  type="tel"
-
-                  placeholder="Mobile Number"
-                  name="phone"
-                />
+                <input type="tel" placeholder="Mobile Number" name="phone" />
               </div>
 
               <div className="form-control">
-                <textarea
-                  name="message"
-                  id=''
-                  cols="30"
-                  rows="4"
-                />
-
+                <textarea name="message" id="" cols="30" rows="4" />
               </div>
               <button type="submit">Send</button>
             </div>
           </div>
         </div>
-        <div className='rightContact'>
+        <div className="rightContact">
           <h3 className="contact-title mb-4">Get in touch with us</h3>
           <div>
-            <ul className="ps-5" >
+            <ul className="ps-5">
               <li className="mb-3 d-flex gap-15 align-item-center">
                 <AiOutlineHome className="fs-5" />
                 <address className="mb-0">
@@ -93,8 +70,7 @@ export default function ContactUs() {
             </ul>
           </div>
         </div>
-
-      </Container >
+      </Container>
     </>
   );
 }
