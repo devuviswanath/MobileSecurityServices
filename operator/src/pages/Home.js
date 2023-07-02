@@ -1,7 +1,11 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+<<<<<<< Updated upstream
 import "../components/Header.js";
+=======
+
+>>>>>>> Stashed changes
 function Home() {
   return (
     <Row>
