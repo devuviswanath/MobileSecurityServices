@@ -2,7 +2,7 @@ import React from 'react';
 import {ListGroup} from 'react-bootstrap';
 
 function Sidebar() {
-const experts = ["First expert", "Second expert", "Third expert"]
+const experts = ["First Expert", "Second Expert", "Third Expert"]
   return (
    <>
    <h2>Available Experts</h2>
