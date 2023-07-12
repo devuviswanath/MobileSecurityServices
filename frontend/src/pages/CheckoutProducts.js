@@ -37,31 +37,32 @@ const Checkout = () => {
                     type="text"
                     placeholder="First Name"
                     className="form-control"
-                    name="firstName"
+                    name="fullName"
                     value=""
                     onChange=""
                     onBlur=""
                   />
                   <div className="error ms-2 my-1"></div>
                 </div>
-                <div className="flex-grow-1">
-                  <input
-                    type="text"
-                    placeholder="Last Name"
-                    className="form-control"
-                    name="lastName"
-                    value=""
-                    onChange=""
-                    onBlur=""
-                  />
-                  <div className="error ms-2 my-1"></div>
-                </div>
+
                 <div className="flex-grow-1">
                   <input
                     type="tel"
                     placeholder="Mobile"
                     className="form-control"
                     name="number"
+                    value=""
+                    onChange=""
+                    onBlur=""
+                  />
+                  <div className="error ms-2 my-1"></div>
+                </div>
+                <div className="flex-grow-1">
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    className="form-control"
+                    name="email"
                     value=""
                     onChange=""
                     onBlur=""
@@ -156,7 +157,7 @@ const Checkout = () => {
             </div>
             <div className="w-100">
               <div className="d-flex justify-content-between align-items-center">
-                <Link to="/" className="button">
+                <Link to="/" className="button border border-dark">
                   Continue to Shipping
                 </Link>
                 <button className="button" type="submit">

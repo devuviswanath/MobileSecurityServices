@@ -34,25 +34,25 @@ a {
   gap: 30px;
 }
 .button {
-  background-color: var(--color-000000);
-  color: white;
+  background-color: var(--color-ffffff);
+  color: black;
   font-size: 14px;
   padding: 13px 33px;
   border-radius: 25px;
 }
 .button:hover {
-  background-color: var(--color-6781de);
-  color: #131921;
+  background-color: var(--color-000000);
+  color: white;
+}
+.test {
+  border-color: #000000;
+  border-radius: 25px;
 }
 .form-control:focus {
   box-shadow: none;
   border-color: inherit;
 }
-/* home wrapper 2 */
-.home-wrapper-2 {
-  background-color: var(--color-f5f5f7);
-}
-/* home wrapper 2 ends */
+
 /* Header Part */
 .logo-img {
   border-radius: 60%;
@@ -108,7 +108,7 @@ footer .input-group-text {
 
 .auth-card {
   padding: 20px;
-  background-color: var(--color-febd69);
+  background-color: var(--color-000000);
   width: 500px;
   margin: 30px auto;
   border-radius: 10px;
@@ -136,7 +136,7 @@ footer .input-group-text {
   color: var(--color-1c1c1b);
 }
 .signup {
-  background-color: var(--color-6781de);
+  background-color: var(--color-ffffff);
   color: black;
   border: none;
 }
@@ -146,109 +146,61 @@ footer .input-group-text {
 }
 
 /*  auth card  ends*/
-
-.App-link {
-  color: #61dafb;
+/* home wrapper  */
+.home-wrapper-2 {
+  background-color: var(--color-f5f5f7);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* home wrapper ends */
+.card-wrapper {
+  background-color: white;
+  box-shadow: 0 0 10px #0000001a;
+  padding: 15px;
 }
-
-/*home page  css starts here*/
-.bg {
-  background-image: url('https://thumbor.forbes.com/thumbor/fit-in/1200x0/filters:format(jpg)/https:%2F%2Fspecials-images.forbesimg.com%2Fimageserve%2F633223586%2F0x0.jpg%3Ffit%3Dscale');
-  background-size: cover;
-  background-position: center;
-  display: inline-block;
-  padding: 10px;
- height: 60vh;
-}
-.home__bg {
-  background-image: url(https://th.bing.com/th/id/R.eb37f8a1b9b7ac0d2cd3a9e1e0244c3e?rik=H%2fBr8uE4ZnkW4A&pid=ImgRaw&r=0);
-  border-image: auto;
-  height: 82vh;
-  width: 106vh;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  overflow-x: hidden;
-}
-
-.home__bg1 {
-  background-image: url(https://ae01.alicdn.com/kf/HTB1B2Kyb.GF3KVjSZFoq6zmpFXa4/Carbon-Monoxide-Gas-Detector-Suitable-install-in-the-kitchen-Beep-sound-alarm-display-gas-concentration-Protect.jpg);
-  border-image: auto;
-  height: 82vh;
-  width: 106vh;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  overflow-x: hidden;
-}
-
-.home__bg2 {
-  background-image: url(https://th.bing.com/th/id/OIP.bOT9vRcr3486kaFfiZHlFAAAAA?pid=ImgDet&rs=1);
-  border-image: auto;
-  height: 82vh;
-  width: 106vh;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  overflow-x: hidden;
-}
-/* home page end*/
 
 /*About pg starts here*/
 .container {
-  max-width: fit-content; 
+  max-width: fit-content;
   margin: 0 auto;
   padding: 20px;
 }
 
-
 .top-section {
   display: flex;
   justify-content: center;
-  flex-direction: row-reverse; 
+  flex-direction: row-reverse;
   align-items: center;
   gap: 6rem;
 }
 
 .left {
   flex: 3;
-  padding-right: 80px; 
+  padding-right: 80px;
 }
 
 .right {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 300px; 
-  width: 300px; 
-  border-radius: 50%; 
-  overflow: hidden; 
+  height: 300px;
+  width: 300px;
+  border-radius: 50%;
+  overflow: hidden;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  background-color: #f1f1f1; 
+  background-color: #f1f1f1;
 }
 
 .right img {
- max-width: 100%;
-  height: auto; 
+  max-width: 100%;
+  height: auto;
 }
-
-
 
 .about__subheading {
   font-size: 20px;
 }
 
 .about__subheading span {
-  color: #0008ff; 
+  color: #0008ff;
 }
 
 .about__heading {
@@ -258,45 +210,41 @@ footer .input-group-text {
 
 .about__info {
   font-size: 16px;
-  
-
 }
 .container:not(:last-child) {
   margin-bottom: 60px;
 }
 
-
-
 /*new added css*/
 .background {
-  background-image: url('../src/Images/About.jpg');
+  background-image: url("../src/images/About.jpg");
   background-size: cover;
   background-position: center;
   display: inline-block;
   color: white;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
-.about-text{
+.about-text {
   padding-top: 5%;
 }
-.about-text h2{
+.about-text h2 {
   color: black;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 50px;
   margin-left: 45%;
 }
-.about-text p{
-  font-family: 'Ubuntu', sans-serif;
+.about-text p {
+  font-family: "Ubuntu", sans-serif;
   font-size: 18px;
   color: black;
- text-align: center;
+  text-align: center;
   margin-left: 20%;
 }
 
 /* About us ends*/
 
 /* Contact us starts here*/
-.col-12{
+.col-12 {
   padding-bottom: 5%;
 }
 
@@ -312,7 +260,6 @@ footer .input-group-text {
   margin: 0 auto;
   margin-left: 0;
   padding-left: 0;
-  
 }
 
 .heading {
@@ -331,8 +278,6 @@ textarea {
   border-radius: 4px;
 }
 
-
-
 button[type="submit"] {
   padding: 10px 20px;
   background-color: #141514;
@@ -350,19 +295,7 @@ button[type="submit"]:hover {
   padding-top: 0%;
 }
 
-
-
-
-
-
-
- 
 /* Contact us ends here*/
-
-
-
-
-
 
 /*  auth card  ends*/
 
@@ -465,19 +398,13 @@ button[type="submit"]:hover {
   width: 100%;
 }
 .product-card .product-image {
-  height: 270px;
-}
-.product-card .product-image img {
-  object-fit: contain;
+  height: 250px;
 }
 
-.product-card .product-details h6 {
-  color: var(--color-bf4800);
-  font-size: 13px;
-}
 .product-card .product-details h5 {
   font-size: 15px;
   color: var(--color-1c1c1b);
+  height: 20px;
 }
 .product-card .product-details p.price {
   font-size: 16px;
@@ -488,16 +415,17 @@ button[type="submit"]:hover {
   color: var(--color-777777);
   margin-right: 20px;
 }
-
-/* Product Card ends here */
-
+/* product card ends */
 /* Single Service / Single ProductPage */
 
 .main-product-image {
   padding: 30px 20px;
   background-color: white;
+  border-radius: 10px;
 }
-
+.main-product-image > div {
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
 .main-product-image img {
   width: 100% !important;
   height: 300px !important;
@@ -507,23 +435,26 @@ button[type="submit"]:hover {
 .main-product-details {
   padding: 30px 20px;
   background-color: white;
-
-  font-size: 14px;
-  color: var(--color-777777);
+  border-radius: 10px;
 }
-.border-bottom {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-}
-
-.product-heading {
-  font-size: 14px;
+.main-product-details h3.title {
+  font-size: 18px;
+  font-weight: 600;
   color: var(--color-1c1c1b);
-  margin-bottom: 0px;
+}
+.main-product-details p.price {
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
 }
 .product-data {
   font-size: 13px;
   columns: var(--color-777777);
   margin-bottom: 0px;
+}
+.border-bottom {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
 }
 
 /* Single Service / Single Product Page Ends */

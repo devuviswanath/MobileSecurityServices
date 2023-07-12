@@ -1,9 +1,25 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Link } from "react-router-dom";
 import { FaRegUser } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
-
+import { BsFillChatDotsFill } from "react-icons/bs";
+import { logoutUser } from "../features/user/userSlice";
 const Header = () => {
+  const authState = useSelector((state) => state.auth);
+  console.log("authstate", authState);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logoutUser(authState.user));
+    localStorage.clear();
+    window.location.reload();
+  };
+  // useEffect(() => {
+  //   if (authState == null && authState.isSuccess === true) {
+  //     navigate("/Login");
+  //   }
+  // }, [authState]);
   return (
     <>
       <header className="header-upper py-3">
@@ -43,28 +59,28 @@ const Header = () => {
                           aria-labelledby="dropdownMenuButton1"
                         >
                           <li>
-                            <Link
+                            <NavLink
                               className="dropdown-item text-white"
                               to="/SingleService"
                             >
                               Service 1
-                            </Link>
+                            </NavLink>
                           </li>
                           <li>
-                            <Link
+                            <NavLink
                               className="dropdown-item text-white"
                               to="/SingleService"
                             >
                               Service 2
-                            </Link>
+                            </NavLink>
                           </li>
                           <li>
-                            <Link
+                            <NavLink
                               className="dropdown-item text-white"
                               to="/SingleService"
                             >
                               Service 3
-                            </Link>
+                            </NavLink>
                           </li>
                         </ul>
                       </div>
@@ -75,12 +91,17 @@ const Header = () => {
                     <NavLink className="text-white" to="/ContactUs">
                       CONTACT US
                     </NavLink>
-                    <Link className="text-white" to="/OurStore">
+                    <NavLink className="text-white" to="/OurStore">
                       OUR STORE
-                    </Link>
-                    <Link className="text-white" to="/Login">
+                    </NavLink>
+                    <button
+                      onClick={handleLogout}
+                      className="border border-0 bg-transparent text-white text-uppercase"
+                      type="button"
+                    >
                       LOGOUT
-                    </Link>
+                    </button>
+
                     <NavLink className="text-white" to="/Login">
                       LOGIN
                     </NavLink>
@@ -89,6 +110,12 @@ const Header = () => {
                     </NavLink>
                     <NavLink className="text-white" to="/Cart">
                       <AiOutlineShoppingCart
+                        className="fs-3"
+                        style={{ color: "white" }}
+                      />
+                    </NavLink>
+                    <NavLink className="text-white" to="/Chat">
+                      <BsFillChatDotsFill
                         className="fs-3"
                         style={{ color: "white" }}
                       />

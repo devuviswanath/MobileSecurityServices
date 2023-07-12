@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Meta from "../components/Meta";
 import Container from "../components/Container";
 import ProductCard from "../components/ProductCard";
@@ -6,7 +6,15 @@ import gr4 from "../images/gr4.svg";
 import gr3 from "../images/gr3.svg";
 import gr2 from "../images/gr2.svg";
 import gr from "../images/gr.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProducts } from "../features/products/productSlice";
 const OurStore = () => {
+  const dispatch = useDispatch();
+  const productState = useSelector((state) => state?.product?.product);
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, []);
+  console.log("productState", productState);
   const [grid, setGrid] = useState(12);
   return (
     <>
@@ -17,7 +25,7 @@ const OurStore = () => {
             <div className="filter-sort-grid mb-4">
               <div className="d-flex justify-content-between align-items-center">
                 <div className="d-flex align-items-center gap-10">
-                  {/* <p className="totalproducts mb-0">{`${productState.length} products`}</p> */}
+                  <p className="totalproducts mb-0">{`${productState.length} products`}</p>
                   <div className="d-flex gap-10 align-items-center grid">
                     <img
                       onClick={() => {
@@ -58,7 +66,10 @@ const OurStore = () => {
             </div>
             <div className="products-list pb-5">
               <div className="d-flex gap-10 flex-wrap">
-                <ProductCard data="" grid={grid} />
+                <ProductCard
+                  data={productState ? productState : []}
+                  grid={grid}
+                />
               </div>
             </div>
           </div>

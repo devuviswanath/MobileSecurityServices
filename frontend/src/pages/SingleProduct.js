@@ -1,13 +1,50 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Meta from "../components/Meta";
 import Container from "../components/Container";
-import { useNavigate } from "react-router-dom";
-import Camera from "../images/security-cameras.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getAProduct } from "../features/products/productSlice";
+import { addProdToCart, getUserCart } from "../features/user/userSlice";
 const SingleProduct = () => {
+  const getTokenfromLocalStorage = localStorage.getItem("customer")
+    ? JSON.parse(localStorage.getItem("customer"))
+    : null;
+  const config1 = {
+    headers: {
+      authorization: `Bearer ${
+        getTokenfromLocalStorage !== null ? getTokenfromLocalStorage.token : ""
+      }`,
+      Accept: "application/json",
+    },
+  };
   const navigate = useNavigate();
-  const [alreadyAdded, setAlreadyAdded] = useState(false);
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const getProductId = location.pathname.split("/")[2];
+  const [quantity, setQuantity] = useState(1);
+  const [alreadyAddedProduct, setAlreadyAddedProduct] = useState(false);
+  const productState = useSelector((state) => state.product.singleproduct);
+  const cartState = useSelector((state) => state.auth.cartProducts);
+  useEffect(() => {
+    dispatch(getAProduct(getProductId));
+    dispatch(getUserCart(config1));
+  }, []);
+  useEffect(() => {
+    for (let index = 0; index < cartState?.length; index++) {
+      if (getProductId == cartState[index]?.productId?._id) {
+        setAlreadyAddedProduct(true);
+      }
+    }
+  }, []);
   const uploadCart = () => {
-    console.log("------upload cart---");
+    dispatch(
+      addProdToCart({
+        productId: productState?._id,
+        quantity,
+        price: productState?.price,
+        config1: config1,
+      })
+    );
     navigate("/Cart");
   };
   return (
@@ -21,7 +58,11 @@ const SingleProduct = () => {
               style={{ width: "100%", height: "100%" }}
             >
               <div>
-                <img src={Camera} className="img-fluid" alt="" />
+                <img
+                  src={productState?.images[0]?.url}
+                  className="img-fluid"
+                  alt=""
+                />
               </div>
             </div>
           </div>
@@ -31,20 +72,19 @@ const SingleProduct = () => {
               style={{ width: "100%", height: "100%" }}
             >
               <div className="border-bottom">
-                <h3 className="title">title</h3>
+                <h3 className="title">{productState?.title}</h3>
               </div>
 
               <div className=" py-3">
-                <p className="price">$ 500</p>
+                <p className="price">$ {productState?.price}</p>
                 <div className="d-flex gap-10 align-items-center my-2">
-                  <h3 className="product-heading">Availablity :</h3>
                   <p className="product-data">In Stock</p>
                 </div>
 
                 <div className="d-flex align-items-center gap-15 flex-row mt-2 mb-3">
-                  {alreadyAdded == false && (
+                  {alreadyAddedProduct == false && (
                     <>
-                      <h3 className="product-heading">Quantity :</h3>
+                      <h6 className="product-heading">Quantity :</h6>
                       <div className="">
                         <input
                           type="number"
@@ -54,37 +94,33 @@ const SingleProduct = () => {
                           className="form-control"
                           style={{ width: "70px" }}
                           id=""
-                          onChange=""
+                          onChange={(e) => setQuantity(e.target.value)}
+                          value={quantity}
                         />
                       </div>
                     </>
                   )}
-                  <div
-                    className={
-                      alreadyAdded
-                        ? "ms-0"
-                        : "ms-5" + "d-flex align-items-center gap-30 ms-5"
-                    }
-                  >
-                    <button
-                      className="button border-0"
-                      type="button"
-                      onClick={() => {
-                        alreadyAdded ? navigate("/Cart") : uploadCart();
-                      }}
-                    >
-                      {alreadyAdded == true ? "Go To Cart" : "Add To Cart"}
-                    </button>
-                  </div>
                 </div>
 
                 <div className="d-flex gap-10 flex-column  my-3">
-                  <h3 className="product-heading">Shipping & Returns :</h3>
-                  <p className="product-data">
-                    Free shipping and returns available on all orders! <br /> We
-                    ship all US domestic orders within
-                    <b>5-10 business days!</b>
-                  </p>
+                  <p className="product-data">{productState?.description}</p>
+                </div>
+                <div
+                  className={
+                    alreadyAddedProduct
+                      ? "ms-0"
+                      : "ms-5" + "d-flex align-items-center gap-30 ms-5"
+                  }
+                >
+                  <button
+                    className="button border border-dark"
+                    type="button"
+                    onClick={() => {
+                      alreadyAddedProduct ? navigate("/Cart") : uploadCart();
+                    }}
+                  >
+                    {alreadyAddedProduct == true ? "Go To Cart" : "Add To Cart"}
+                  </button>
                 </div>
               </div>
             </div>

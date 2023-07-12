@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import Container from "../components/Container";
 const CheckoutService = () => {
   return (
@@ -19,19 +18,7 @@ const CheckoutService = () => {
                     type="text"
                     placeholder="First Name"
                     className="form-control"
-                    name="firstName"
-                    value=""
-                    onChange=""
-                    onBlur=""
-                  />
-                  <div className="error ms-2 my-1"></div>
-                </div>
-                <div className="flex-grow-1">
-                  <input
-                    type="text"
-                    placeholder="Last Name"
-                    className="form-control"
-                    name="lastName"
+                    name="fullName"
                     value=""
                     onChange=""
                     onBlur=""
