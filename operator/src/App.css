@@ -65,13 +65,12 @@
 
 /*home page ends*/
 
-/*messageForm*/
+/*messageForm starts*/
 .message-output {
   height: 80vh;
-  border: 1px solid lightgray;
+  border: 2px solid lightgray;
   overflow-y: scroll;
   margin-bottom: 20px;
   
-
 }
 /*messageForm ends*/
