@@ -24,19 +24,38 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="header">
-              <Nav.Link href="/">
+              <Nav.Link className="text-white " href="/">
                 {" "}
                 <i className="fas fa-home"></i> HOME
               </Nav.Link>
-              <Nav.Link href="/login">
-                {" "}
-                <i className="fas fa-user"></i> LOGIN
-              </Nav.Link>
-              {/* <Nav.Link href='/about'><i className='fas fa-info-circle'></i> ABOUT US </Nav.Link> */}
-              <Nav.Link href="/chat">
-                {" "}
-                <i className="fas fa-comment"></i> CHAT{" "}
-              </Nav.Link>
+              {!user?._id && (
+                <Nav.Link className="text-white " href="/login">
+                  <i className="fas fa-user"></i>LOGIN
+                </Nav.Link>
+              )}
+              {user?._id && (
+                <Nav.Link className="text-white " href="/profile">
+                  <i className="fas fa-user"></i>PROFILE
+                </Nav.Link>
+              )}
+              {user?._id && (
+                <Nav.Link className="text-white " href="/chat">
+                  <i className="fas fa-comment"></i>CHAT
+                </Nav.Link>
+              )}
+
+              {user?._id && (
+                <Nav.Link
+                  onClick={
+                    user ? () => handleLogout() : () => navigate("/login")
+                  }
+                  href="/login"
+                  className="border border-0 bg-transparent text-white text-uppercase"
+                  type="button"
+                >
+                  LOGOUT
+                </Nav.Link>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>
