@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getAProduct } from "../features/products/productSlice";
 import { addProdToCart, getUserCart } from "../features/user/userSlice";
 const SingleProduct = () => {
+  const { user } = useSelector(({ auth }) => auth);
   const getTokenfromLocalStorage = localStorage.getItem("customer")
     ? JSON.parse(localStorage.getItem("customer"))
     : null;
@@ -23,8 +24,8 @@ const SingleProduct = () => {
   const getProductId = location.pathname.split("/")[2];
   const [quantity, setQuantity] = useState(1);
   const [alreadyAddedProduct, setAlreadyAddedProduct] = useState(false);
-  const productState = useSelector((state) => state.product.singleproduct);
-  const cartState = useSelector((state) => state.auth.cartProducts);
+  const productState = useSelector((state) => state?.product?.singleproduct);
+  const cartState = useSelector((state) => state?.auth?.cartProducts);
   useEffect(() => {
     dispatch(getAProduct(getProductId));
     dispatch(getUserCart(config1));
@@ -36,7 +37,7 @@ const SingleProduct = () => {
       }
     }
   }, []);
-  const uploadCart = () => {
+  const uploadCart = (productState) => {
     dispatch(
       addProdToCart({
         productId: productState?._id,
@@ -105,23 +106,48 @@ const SingleProduct = () => {
                 <div className="d-flex gap-10 flex-column  my-3">
                   <p className="product-data">{productState?.description}</p>
                 </div>
-                <div
-                  className={
-                    alreadyAddedProduct
-                      ? "ms-0"
-                      : "ms-5" + "d-flex align-items-center gap-30 ms-5"
-                  }
-                >
-                  <button
-                    className="button border border-dark"
-                    type="button"
-                    onClick={() => {
-                      alreadyAddedProduct ? navigate("/Cart") : uploadCart();
-                    }}
+                {user?._id && (
+                  <div
+                    className={
+                      alreadyAddedProduct
+                        ? "ms-0"
+                        : "ms-5" + "d-flex align-items-center gap-30 ms-5"
+                    }
                   >
-                    {alreadyAddedProduct == true ? "Go To Cart" : "Add To Cart"}
-                  </button>
-                </div>
+                    <button
+                      className="button border border-dark"
+                      type="button"
+                      onClick={() => {
+                        alreadyAddedProduct
+                          ? navigate("/Cart")
+                          : uploadCart(productState);
+                      }}
+                    >
+                      {alreadyAddedProduct == true
+                        ? "Go To Cart"
+                        : "Add To Cart"}
+                    </button>
+                  </div>
+                )}
+                {!user?._id && (
+                  <div
+                    className={
+                      alreadyAddedProduct
+                        ? "ms-0"
+                        : "ms-5" + "d-flex align-items-center gap-30 ms-5"
+                    }
+                  >
+                    <button
+                      className="button border border-dark"
+                      type="button"
+                      onClick={() => {
+                        navigate("/Login");
+                      }}
+                    >
+                      Add To Cart
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

@@ -14,7 +14,7 @@ const OurStore = () => {
   useEffect(() => {
     dispatch(getAllProducts());
   }, []);
-  console.log("productState", productState);
+
   const [grid, setGrid] = useState(12);
   return (
     <>
@@ -25,7 +25,7 @@ const OurStore = () => {
             <div className="filter-sort-grid mb-4">
               <div className="d-flex justify-content-between align-items-center">
                 <div className="d-flex align-items-center gap-10">
-                  <p className="totalproducts mb-0">{`${productState.length} products`}</p>
+                  <p className="totalproducts mb-0">{`${productState?.length} products`}</p>
                   <div className="d-flex gap-10 align-items-center grid">
                     <img
                       onClick={() => {

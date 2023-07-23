@@ -13,7 +13,6 @@ const ServiceCard = (dataFromHome) => {
   return (
     <>
       {newdata?.map((item, index) => {
-        console.log("item", item);
         return (
           <div
             key={index}

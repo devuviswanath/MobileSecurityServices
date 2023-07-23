@@ -72,17 +72,6 @@ export default function About() {
         </div>
       </div>
 
-      {/*} <Row>
-        {persons.map((person) => (
-          <Col key={person._id} md={6} lg={4} className="person">
-            <h2>{person.name}</h2>
-            <p>Email: {person.email}</p>
-            <p>Position: {person.position}</p>
-            <p>Contact: {person.contact}</p>
-          </Col>
-        ))}
-        </Row>*/}
-
       <div className="container">
         <div className="top-section">
           <div className="left">

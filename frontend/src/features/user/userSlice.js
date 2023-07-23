@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import { authService } from "./userService";
 import { toast } from "react-toastify";
 
@@ -43,10 +43,10 @@ export const forgotPassword = createAsyncThunk(
   }
 );
 export const resetPassword = createAsyncThunk(
-  "user/update-password",
+  "user/reset-password",
   async (details, thunkAPI) => {
     try {
-      return await authService.UpdatePassword(details);
+      return await authService.ResetPassword(details);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -64,9 +64,9 @@ export const addProdToCart = createAsyncThunk(
 );
 export const getUserCart = createAsyncThunk(
   "auth/cart/get",
-  async (data, thunkAPI) => {
+  async (thunkAPI) => {
     try {
-      return await authService.getCart(data);
+      return await authService.getCart();
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -112,12 +112,57 @@ export const createProductOrder = createAsyncThunk(
     }
   }
 );
+export const createServiceOrder = createAsyncThunk(
+  "auth/cart/create-service-order",
+  async (ServiceOrderDetail, thunkAPI) => {
+    try {
+      return await authService.createServiceOrder(ServiceOrderDetail);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const getOrderByUser = createAsyncThunk(
+  "order/get-order",
+  async (id, thunkAPI) => {
+    try {
+      return await authService.getOrder(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const getServiceOrderByUser = createAsyncThunk(
+  "order/get-service-order",
+  async (id, thunkAPI) => {
+    try {
+      return await authService.getServiceOrder(id);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const updateProfile = createAsyncThunk(
+  "auth/profile/update",
+  async (data, thunkAPI) => {
+    try {
+      return await authService.updateUser(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const resetState = createAction("Reset_all");
+
 const getCustomerfromLocalStorate = localStorage.getItem("customer")
   ? JSON.parse(localStorage.getItem("customer"))
   : null;
 const initialState = {
   user: getCustomerfromLocalStorate,
   userorder: [],
+  userserviceorder: [],
+  cartProducts: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -349,6 +394,83 @@ export const authslice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
+      })
+      .addCase(createServiceOrder.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createServiceOrder.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.orderedService = action.payload;
+      })
+      .addCase(createServiceOrder.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(getOrderByUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getOrderByUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.userorder = action.payload;
+      })
+      .addCase(getOrderByUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(getServiceOrderByUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getServiceOrderByUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.userserviceorder = action.payload;
+      })
+      .addCase(getServiceOrderByUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+      })
+      .addCase(updateProfile.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.updatedUser = action.payload;
+
+        // if (state.isSuccess) {
+        let currentUserData = JSON.parse(localStorage.getItem("customer"));
+        let newUserData = {
+          _id: currentUserData?._id,
+          token: currentUserData?.token,
+          fullname: action?.payload?.fullname,
+          mobile: action?.payload?.mobile,
+          email: action?.payload?.email,
+        };
+        localStorage.setItem("customer", JSON.stringify(newUserData));
+        state.user = newUserData;
+        toast.success("Profile Updated Successfully");
+        // }
+      })
+      .addCase(updateProfile.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        if (state.isError) {
+          toast.error("Somthing Went Wrong");
+        }
       });
   },
 });

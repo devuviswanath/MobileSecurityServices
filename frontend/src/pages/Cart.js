@@ -21,13 +21,15 @@ const Cart = () => {
       Accept: "application/json",
     },
   };
+
   const dispatch = useDispatch();
+  const userCartState = useSelector((state) => state?.auth?.cartProducts);
+  useEffect(() => {
+    dispatch(getUserCart());
+  }, []);
   const [productUpdateDetail, setProductUpdateDetail] = useState(null);
   const [totalAmount, setTotalAmount] = useState(null);
-  const userCartState = useSelector((state) => state.auth.cartProducts);
-  useEffect(() => {
-    dispatch(getUserCart(config2));
-  }, []);
+
   // *******************************
   useEffect(() => {
     if (productUpdateDetail !== null) {
@@ -38,7 +40,7 @@ const Cart = () => {
         })
       );
       setTimeout(() => {
-        dispatch(getUserCart(config2));
+        dispatch(getUserCart());
       }, 200);
     }
   }, [productUpdateDetail]);
@@ -46,7 +48,7 @@ const Cart = () => {
   const deleteACartProduct = (id) => {
     dispatch(deleteCartProduct({ id: id, config2: config2 }));
     setTimeout(() => {
-      dispatch(getUserCart(config2));
+      dispatch(getUserCart());
     }, 200);
   };
   // ************************************
@@ -74,7 +76,10 @@ const Cart = () => {
             {userCartState &&
               userCartState?.map((item, index) => {
                 return (
-                  <div className="cart-data py-3 mb-2 d-flex justify-content-between align-items-center">
+                  <div
+                    key={index}
+                    className="cart-data py-3 mb-2 d-flex justify-content-between align-items-center"
+                  >
                     <div className="cart-col-1 gap-15 d-flex align-items-center">
                       <div className="w-25">
                         <img
@@ -95,15 +100,11 @@ const Cart = () => {
                         <input
                           className="form-control"
                           type="number"
-                          name=""
+                          name={"quantity" + item?._id}
                           min={1}
                           max={10}
-                          id=""
-                          value={
-                            productUpdateDetail?.quantity
-                              ? productUpdateDetail?.quantity
-                              : item?.quantity
-                          }
+                          id={"cart" + item?._id}
+                          value={item?.quantity}
                           onChange={(e) => {
                             setProductUpdateDetail({
                               cartItemId: item?._id,
@@ -143,10 +144,7 @@ const Cart = () => {
                 <div className="d-flex flex-column align-items-end">
                   <h4>SubTotal: $ {totalAmount}</h4>
                   <p>Taxes and shipping calculated at checkout</p>
-                  <Link
-                    to="/CheckoutProducts"
-                    className="button border border-dark"
-                  >
+                  <Link to="/CheckoutProducts" className="button">
                     Checkout
                   </Link>
                 </div>

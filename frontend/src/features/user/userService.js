@@ -1,3 +1,4 @@
+import axios from "axios";
 import { base_url, instance, config } from "../../utils/axiosConfig";
 
 const register = async (userData) => {
@@ -34,8 +35,11 @@ const forgotPasswordToken = async (email) => {
     return response.data;
   }
 };
-const UpdatePassword = async (details) => {
-  const response = await instance.put(`${base_url}user/password`, details);
+const ResetPassword = async (details) => {
+  const response = await instance.put(
+    `${base_url}user/reset-password/${details.token}`,
+    { password: details?.password }
+  );
   if (response.data) {
     return response.data;
   }
@@ -50,9 +54,8 @@ const addToCart = async (cartData) => {
     return response.data;
   }
 };
-const getCart = async (data) => {
-  console.log("data", data);
-  const response = await instance.get(`${base_url}user/getcart`, data);
+const getCart = async () => {
+  const response = await instance.get(`${base_url}user/getcart`, config);
   if (response.data) {
     return response.data;
   }
@@ -67,7 +70,7 @@ const removeProductFromCart = async (data) => {
   }
 };
 const updateProductFromCart = async (cartDetail) => {
-  const response = await instance.put(
+  const response = await instance.delete(
     `${base_url}user/update-product-cart/${cartDetail.cartItemId}/${cartDetail.quantity}`,
     config
   );
@@ -91,17 +94,57 @@ const createProductOrder = async (prodOrderDetail) => {
     return response.data;
   }
 };
+const createServiceOrder = async (serviceOrderDetail) => {
+  const response = await instance.post(
+    `${base_url}user/cart/create-service-order`,
+    serviceOrderDetail,
+    config
+  );
+  if (response.data) {
+    return response.data;
+  }
+};
+const getOrder = async (id) => {
+  const response = await instance.get(
+    `${base_url}user/getorderdetails/${id}`,
+    config
+  );
+
+  return response.data;
+};
+const getServiceOrder = async (id) => {
+  const response = await instance.get(
+    `${base_url}user/getserviceorderdetails/${id}`,
+    config
+  );
+
+  return response.data;
+};
+const updateUser = async (data) => {
+  const response = await instance.put(
+    `${base_url}user/edit-user`,
+    data?.data,
+    data?.config2
+  );
+  if (response.data) {
+    return response.data;
+  }
+};
 
 export const authService = {
   register,
   login,
   logout,
   forgotPasswordToken,
-  UpdatePassword,
+  ResetPassword,
   addToCart,
   getCart,
   removeProductFromCart,
   updateProductFromCart,
   emptyCartItems,
   createProductOrder,
+  createServiceOrder,
+  getOrder,
+  getServiceOrder,
+  updateUser,
 };

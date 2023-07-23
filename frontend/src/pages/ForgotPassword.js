@@ -3,8 +3,30 @@ import { Link } from "react-router-dom";
 import Meta from "../components/Meta";
 import Container from "../components/Container";
 import CustomInput from "../components/CustomInput";
+import { useFormik } from "formik";
+import { useDispatch } from "react-redux";
+import * as yup from "yup";
+import { forgotPassword } from "../features/user/userSlice";
+
+const ForgotPasswordSchema = yup.object({
+  email: yup
+    .string()
+    .email("Email should be valid")
+    .required("Email address is required"),
+});
 
 const ForgotPassword = () => {
+  const dispatch = useDispatch();
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+    },
+    validationSchema: ForgotPasswordSchema,
+    onSubmit: (values) => {
+      dispatch(forgotPassword(values));
+    },
+  });
   return (
     <>
       <Meta title={"Forgot Password"} />
@@ -16,8 +38,19 @@ const ForgotPassword = () => {
               <p className="text-center mt-2 mb-3">
                 We will send you an email to reset your password
               </p>
-              <form action="" className="d-flex flex-column gap-15">
-                <CustomInput type="email" name="email" placeholder="Email" />
+              <form
+                action=""
+                onSubmit={formik.handleSubmit}
+                className="d-flex flex-column gap-15"
+              >
+                <CustomInput
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  onChange={formik.handleChange("email")}
+                  onBlur={formik.handleBlur("email")}
+                  value={formik.values.email}
+                />
                 <div className="error"></div>
 
                 <div>

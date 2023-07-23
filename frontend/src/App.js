@@ -15,7 +15,6 @@ import ForgotPassword from "./pages/ForgotPassword";
 import Login from "./pages/Login";
 import Orders from "./pages/Orders";
 import OurStore from "./pages/OurStore";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Profile from "./pages/Profile";
 import ResetPassword from "./pages/ResetPassword";
 import Signup from "./pages/Signup";
@@ -42,9 +41,8 @@ function App() {
             <Route path="Login" element={<Login />} />
             <Route path="Orders" element={<Orders />} />
             <Route path="OurStore" element={<OurStore />} />
-            <Route path="PrivacyPolicy" element={<PrivacyPolicy />} />
             <Route path="Profile" element={<Profile />} />
-            <Route path="ResetPassword" element={<ResetPassword />} />
+            <Route path="ResetPassword/:token" element={<ResetPassword />} />
             <Route path="Signup" element={<Signup />} />
             <Route path="SingleService/:id" element={<SingleService />} />
             <Route path="SingleProduct/:id" element={<SingleProduct />} />

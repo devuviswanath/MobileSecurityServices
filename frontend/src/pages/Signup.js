@@ -7,37 +7,45 @@ import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
+const phoneRegExp =
+  /^(\(\+[0-9]{2}\))?([0-9]{3}-?)?([0-9]{3})\-?([0-9]{4})(\/[0-9]{4})?$/;
+const emailRegExp = /^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$/;
 const signupSchema = yup.object({
   fullname: yup.string().required("FullName is Required"),
   email: yup
     .string()
     .nullable()
+    .matches(emailRegExp, "Please enter a valid email (test@gmail.com)")
     .email("Email should be valid")
     .required("Email address is required"),
-  number: yup.string().required("Mobile number is Required"),
+  mobile: yup
+    .string()
+    .matches(phoneRegExp, "Please enter a 10 digit valid phone number")
+    .required("Mobile number is Required"),
   password: yup.string().required("Password is Required"),
 });
 const Signup = () => {
   const navigate = useNavigate();
-  const authState = useSelector((state) => state.auth);
+  const authState = useSelector((state) => state?.auth);
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       fullname: "",
       email: "",
-      number: "",
+      mobile: "",
       password: "",
     },
     validationSchema: signupSchema,
     onSubmit: (values) => {
       dispatch(registerUser(values));
+      navigate("/Login");
     },
   });
-  useEffect(() => {
-    if (authState.createdUser !== null && authState.isError === false) {
-      navigate("/Login");
-    }
-  }, [authState]);
+  // useEffect(() => {
+  //   if (authState.createdUser !== null && authState.isError === false) {
+  //     navigate("/Login");
+  //   }
+  // }, [authState]);
   return (
     <>
       <Meta title={"Sign Up"} />
@@ -75,15 +83,15 @@ const Signup = () => {
                 </div>
                 <CustomInput
                   type="tel"
-                  name="number"
+                  name="mobile"
                   placeholder="Mobile Number"
-                  value={formik.values.number}
-                  onChange={formik.handleChange("number")}
-                  onBlur={formik.handleBlur("number")}
+                  value={formik.values.mobile}
+                  onChange={formik.handleChange("mobile")}
+                  onBlur={formik.handleBlur("mobile")}
                 />
                 <div className="error">
                   {" "}
-                  {formik.touched.number && formik.errors.number}
+                  {formik.touched.mobile && formik.errors.mobile}
                 </div>
                 <CustomInput
                   type="password"

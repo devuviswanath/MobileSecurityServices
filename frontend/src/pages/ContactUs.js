@@ -1,14 +1,38 @@
-import React from "react";
+import React, { useRef } from "react";
 import Container from "../components/Container";
+import Meta from "../components/Meta";
 import { AiOutlineHome, AiOutlineMail } from "react-icons/ai";
 import { BiPhoneCall, BiInfoCircle } from "react-icons/bi";
+import { toast } from "react-toastify";
+import emailjs from "@emailjs/browser";
+const Contact = () => {
+  const form = useRef();
 
-export default function ContactUs() {
-  // const [name, setName] = useState('');
-  //const [email, setEmail] = useState('');
-  //const [message, setMessage] = useState('');
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm(
+        "service_vkow1yj",
+        "template_iywtmaq",
+        form.current,
+        "i5YblMb9e0ECDegph"
+      )
+      .then(
+        (result) => {
+          e.target.reset();
+          toast.info("Message Sent Successfully");
+          console.log(result.text);
+          console.log("Message sent");
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
   return (
     <>
+      <Meta title={"Contact Us"} />
       <Container class1="contact-wrapper py-5 home-wrapper-2">
         <div className="container-xxl">
           <div className="row">
@@ -23,54 +47,91 @@ export default function ContactUs() {
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
             </div>
-            <div className="form">
-              <h2 className="heading"> Contact </h2>
-
-              <div className="form-control">
-                <input type="text" placeholder="Name" name="name" />
+            <div className="=col-12 mt-5">
+              <div className="contact-inner-wrapper d-flex justify-content-between">
+                <div>
+                  <h3 className="contact-title">Contact</h3>
+                  <form
+                    ref={form}
+                    onSubmit={sendEmail}
+                    className="d-flex flex-column gap-15"
+                  >
+                    <div>
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Name"
+                        name="name"
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="email"
+                        className="form-control"
+                        placeholder="Email"
+                        name="email"
+                      />
+                    </div>
+                    <div>
+                      <input
+                        type="tel"
+                        className="form-control"
+                        placeholder="Mobile Number"
+                        name="phone"
+                      />
+                    </div>
+                    <div>
+                      <textarea
+                        name="message"
+                        className="w-100 form-control"
+                        id=""
+                        cols="30"
+                        rows="4"
+                        placeholder="Comments"
+                      ></textarea>
+                    </div>
+                    <div>
+                      <input
+                        type="submit"
+                        value="Send"
+                        className="button border border-dark"
+                      />
+                    </div>
+                  </form>
+                </div>
+                <div>
+                  <h3 className="contact-title mb-4">Get in touch with us</h3>
+                  <div>
+                    <ul className="ps-0">
+                      <li className="mb-3 d-flex gap-15 align-item-center">
+                        <AiOutlineHome className="fs-5" />
+                        <address className="mb-0">
+                          Lambton College, 121 Brunel Rd, Mississauga
+                        </address>
+                      </li>
+                      <li className="mb-3 d-flex gap-15 align-item-center">
+                        <BiPhoneCall className="fs-5" />
+                        <a href="tel:905-890-7833">905-890-7833</a>
+                      </li>
+                      <li className="mb-3 d-flex gap-15 align-item-center">
+                        <AiOutlineMail className="fs-5" />
+                        <a href="mailto:mobilesecurityservices@gmail.com">
+                          mobilesecurityservices@gmail.com
+                        </a>
+                      </li>
+                      <li className="mb-3 d-flex gap-15 align-item-center">
+                        <BiInfoCircle className="fs-5" />
+                        <p className="mb-0">Monday - Friday 10 AM to 8 PM</p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
-              <div className="form-control">
-                <input type="email" placeholder="Email" name="email" />
-              </div>
-              <div className="form-control">
-                <input type="tel" placeholder="Mobile Number" name="phone" />
-              </div>
-
-              <div className="form-control">
-                <textarea name="message" id="" cols="30" rows="4" />
-              </div>
-              <button type="submit">Send</button>
             </div>
-          </div>
-        </div>
-        <div className="rightContact">
-          <h3 className="contact-title mb-4">Get in touch with us</h3>
-          <div>
-            <ul className="ps-5">
-              <li className="mb-3 d-flex gap-15 align-item-center">
-                <AiOutlineHome className="fs-5" />
-                <address className="mb-0">
-                  75 Watline Avenue, Mississauga
-                </address>
-              </li>
-              <li className="mb-3 d-flex gap-15 align-item-center">
-                <BiPhoneCall className="fs-5" />
-                <a href="tel:475-647-8756">475-647-8756</a>
-              </li>
-              <li className="mb-3 d-flex gap-15 align-item-center">
-                <AiOutlineMail className="fs-5" />
-                <a href="mailto:mobilesecurityservices@gmail.com">
-                  mobilesecurityservices@gmail.com
-                </a>
-              </li>
-              <li className="mb-3 d-flex gap-15 align-item-center">
-                <BiInfoCircle className="fs-5" />
-                <p className="mb-0">Monday - Friday 10 AM to 8 PM</p>
-              </li>
-            </ul>
           </div>
         </div>
       </Container>
     </>
   );
-}
+};
+export default Contact;
