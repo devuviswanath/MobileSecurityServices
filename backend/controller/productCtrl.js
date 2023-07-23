@@ -30,7 +30,6 @@ const getaProduct = asyncHandler(async (req, res) => {
 const getAllProduct = asyncHandler(async (req, res) => {
   try {
     const queryObj = { ...req.query };
-    console.log(queryObj);
     const excludeFields = ["page", "sort", "limit", "fields"];
     excludeFields.forEach((el) => delete queryObj[el]);
     let queryStr = JSON.stringify(queryObj);

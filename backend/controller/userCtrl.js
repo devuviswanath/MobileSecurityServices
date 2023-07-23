@@ -1,7 +1,7 @@
 const User = require("../models/userModel");
 const Cart = require("../models/cartModel");
 const ProductOrder = require("../models/productorderModel");
-
+const ServiceOrder = require("../models/serviceorderModel");
 const { generateToken } = require("../config/jwtToken");
 const asyncHandler = require("express-async-handler");
 const validateMongoDbId = require("../utils/validateMongodbId");
@@ -9,10 +9,9 @@ const { generateRefreshToken } = require("../config/refreshtoken");
 const sendEmail = require("./emailCtrl");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
-
+const redisClient = require("../config/redis");
 //create user
 const createUser = asyncHandler(async (req, res) => {
-  console.log("res", req.body);
   const email = req.body.email;
   const findUser = await User.findOne({ email: email });
   if (!findUser) {
@@ -46,6 +45,36 @@ const loginUserCtrl = asyncHandler(async (req, res) => {
       email: findUser?.email,
       mobile: findUser?.mobile,
       token: generateToken(findUser?._id),
+    });
+  } else {
+    throw new Error("Invalid Credentials");
+  }
+});
+//loginOperator
+const loginOperator = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  // check if user exists or not
+  const findOperator = await User.findOne({ email });
+  if (findOperator.role !== "operator") throw new Error("Not Authorised");
+  if (findOperator && (await findOperator.isPasswordMatched(password))) {
+    const refreshToken = await generateRefreshToken(findOperator?._id);
+    const updateoperator = await User.findByIdAndUpdate(
+      findOperator.id,
+      {
+        refreshToken: refreshToken,
+      },
+      { new: true }
+    );
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      maxAge: 72 * 60 * 60 * 1000,
+    });
+    res.json({
+      _id: findOperator?._id,
+      fullname: findOperator?.fullname,
+      email: findOperator?.email,
+      mobile: findOperator?.mobile,
+      token: generateToken(findOperator?._id),
     });
   } else {
     throw new Error("Invalid Credentials");
@@ -94,6 +123,27 @@ const updatedUser = asyncHandler(async (req, res) => {
       }
     );
     res.json(updatedUser);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+const updatedOperator = asyncHandler(async (req, res) => {
+  const { id } = req.user;
+  validateMongoDbId(id);
+  try {
+    const updatedOperator = await User.findByIdAndUpdate(
+      id,
+      {
+        fullname: req?.body?.fullname,
+        email: req?.body?.email,
+        mobile: req?.body?.mobile,
+      },
+      {
+        new: true,
+      }
+    );
+    res.json(updatedOperator);
   } catch (error) {
     throw new Error(error);
   }
@@ -162,7 +212,7 @@ const forgotPasswordToken = asyncHandler(async (req, res) => {
     const token = await user.createPasswordResetToken();
 
     await user.save();
-    const resetURL = `Hi, Please follow this link to reset Your Password. This link is valid till 10 minutes from now. <a href='http://localhost:5000/api/user/reset-password/${token}'>Click Here</>`;
+    const resetURL = `Hi, Please follow this link to reset Your Password. This link is valid till 10 minutes from now. <a href='http://localhost:3000/ResetPassword/${token}'>Click Here</>`;
     const data = {
       to: email,
       text: "Hey User",
@@ -170,7 +220,8 @@ const forgotPasswordToken = asyncHandler(async (req, res) => {
       htm: resetURL,
     };
     sendEmail(data);
-    res.json(token);
+    const respo = { token: token, userId: user._id };
+    res.json(respo);
   } catch (error) {
     throw new Error(error);
   }
@@ -225,11 +276,13 @@ const updateProductQuantityFromCart = asyncHandler(async (req, res) => {
   }
 });
 const getUserCart = asyncHandler(async (req, res) => {
-  console.log("getcart", res);
   const { _id } = req.user;
+  console.log("++++++++====", req.user._id);
   validateMongoDbId(_id);
   try {
-    const cart = await Cart.find({ userId: _id }).populate("productId");
+    const cart = await Cart.find({ userId: req.user._id }).populate(
+      "productId"
+    );
     res.json(cart);
   } catch (error) {
     throw new Error(error);
@@ -260,32 +313,89 @@ const emptyCart = asyncHandler(async (req, res) => {
     throw new Error(error);
   }
 });
-// const createProductOrder = asyncHandler(async (req, res) => {
-//   const { shippingInfo, orderItems, totalPrice, totalPriceAfterDiscount } =
-//     req.body;
-//   const { _id } = req.user._id;
-//   try {
-//     const product_order = await ProductOrder.create({
-//       shippingInfo,
-//       orderItems,
-//       totalPrice,
-//       totalPriceAfterDiscount,
-//       user: _id,
-//     });
-//     res.json({ product_order, success: true });
-//   } catch (error) {
-//     throw new Error(error);
-//   }
-// });
+const createProductOrder = asyncHandler(async (req, res) => {
+  const { shippingInfo, orderItems, totalPrice } = req.body;
+  const { _id } = req.user._id;
+  try {
+    const product_order = await ProductOrder.create({
+      shippingInfo,
+      orderItems,
+      totalPrice,
+      user: _id,
+    });
+    res.json({ product_order, success: true });
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+const createServiceOrder = asyncHandler(async (req, res) => {
+  const { billingInfo, orderItems, totalPrice, expiredDate } = req.body;
+  const { _id } = req.user._id;
+  try {
+    const service_order = await ServiceOrder.create({
+      billingInfo,
+      orderItems,
+      totalPrice,
+      expiredDate,
+      user: _id,
+    });
+    res.json({ service_order, success: true });
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+const getOrderByUserId = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  validateMongoDbId(id);
+  try {
+    let cachedOrders = await redisClient.get("orders");
+
+    if (cachedOrders) {
+      const userorders = JSON.parse(cachedOrders);
+      console.log("Orders from Cache");
+      res.json(userorders);
+    } else {
+      const userorders = await ProductOrder.find({ user: id })
+        .populate("orderItems.product")
+        .populate("user")
+        .exec();
+      res.json(userorders);
+      console.log("User orders from Database");
+      redisClient.set("orders", JSON.stringify(userorders));
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+const getServiceOrderByUserId = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  validateMongoDbId(id);
+  try {
+    const userorders = await ServiceOrder.find({ user: id })
+      .populate("orderItems.service")
+      .populate("user")
+      .exec();
+    res.json(userorders);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
 module.exports = {
   createUser,
   loginUserCtrl,
+  loginOperator,
   getallUser,
   getaUser,
   updatedUser,
   handleRefreshToken,
   userCart,
-  // createProductOrder,
+  createProductOrder,
+  createServiceOrder,
+  getOrderByUserId,
+  getServiceOrderByUserId,
   getUserCart,
   updateProductQuantityFromCart,
   removeProductFromCart,
@@ -294,4 +404,5 @@ module.exports = {
   updatePassword,
   forgotPasswordToken,
   resetPassword,
+  updatedOperator,
 };

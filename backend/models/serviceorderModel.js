@@ -8,12 +8,12 @@ var serviceorderSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    shippingInfo: {
+    billingInfo: {
       fullName: {
         type: String,
         required: true,
       },
-      number: {
+      mobile: {
         type: String,
         required: true,
       },
@@ -51,15 +51,14 @@ var serviceorderSchema = new mongoose.Schema(
       {
         service: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Product",
+          ref: "Service",
           required: true,
         },
-        contract_type: {
-          type: String,
+        per_price: {
+          type: Number,
           required: true,
         },
-
-        price: {
+        tem_price: {
           type: Number,
           required: true,
         },
@@ -69,10 +68,12 @@ var serviceorderSchema = new mongoose.Schema(
       type: Date,
       default: Date.now(),
     },
+
     totalPrice: {
       type: Number,
       required: true,
     },
+    expiredDate: { type: Date, required: true },
     orderStatus: {
       type: String,
       default: "Ordered",

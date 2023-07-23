@@ -1,12 +1,15 @@
 const express = require("express");
+
 const {
   createUser,
   loginUserCtrl,
+  loginOperator,
   getallUser,
   getaUser,
   updatedUser,
   userCart,
-  // createProductOrder,
+  createProductOrder,
+  createServiceOrder,
   getUserCart,
   updateProductQuantityFromCart,
   removeProductFromCart,
@@ -16,24 +19,39 @@ const {
   updatePassword,
   forgotPasswordToken,
   resetPassword,
+  getOrderByUserId,
+  getServiceOrderByUserId,
+  updatedOperator,
 } = require("../controller/userCtrl");
 const { authMiddleware, isOperator } = require("../middlewares/authMiddleware");
 const router = express.Router();
 
-router.post("/register", createUser);
-router.put("/password", authMiddleware, updatePassword);
-router.post("/forgot-password-token", forgotPasswordToken);
-router.put("/reset-password/:token", resetPassword); //post-man
-router.post("/login", loginUserCtrl);
-router.post("/addcart", authMiddleware, userCart);
-// router.post("/cart/create-product-order", authMiddleware, createProductOrder);
-router.get("/getcart", authMiddleware, getUserCart);
+var cacheService = require("express-api-cache");
+var cache = cacheService.cache;
 
-router.get("/all-users", getallUser);
+router.post("/register", createUser);
+router.put("/password", authMiddleware, updatePassword); //postman
+router.post("/forgot-password-token", forgotPasswordToken);
+router.put("/reset-password/:token", resetPassword);
+router.post("/login", loginUserCtrl);
+router.post("/operator-login", loginOperator);
+router.post("/addcart", authMiddleware, userCart);
+router.post("/cart/create-product-order", authMiddleware, createProductOrder);
+router.post("/cart/create-service-order", authMiddleware, createServiceOrder);
+
+router.get("/getcart", authMiddleware, getUserCart);
+router.get("/getorderdetails/:id", authMiddleware, getOrderByUserId);
+router.get(
+  "/getserviceorderdetails/:id",
+  authMiddleware,
+  getServiceOrderByUserId
+);
+
+router.get("/all-users", cache("10 minutes"), getallUser);
 router.get("/refresh", handleRefreshToken);
 router.get("/logout", logout);
 router.get("/:id", authMiddleware, isOperator, getaUser);
-router.put(
+router.delete(
   "/update-product-cart/:cartItemId/:newQuantity",
   authMiddleware,
   updateProductQuantityFromCart
@@ -45,5 +63,6 @@ router.delete(
 );
 router.delete("/empty-cart", authMiddleware, emptyCart);
 router.put("/edit-user", authMiddleware, updatedUser);
+router.put("/edit-operator", authMiddleware, isOperator, updatedOperator);
 
 module.exports = router;
