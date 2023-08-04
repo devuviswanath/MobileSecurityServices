@@ -5,6 +5,7 @@ const {
   loginUserCtrl,
   loginOperator,
   getallUser,
+  getallOperators,
   getaUser,
   updatedUser,
   userCart,
@@ -47,10 +48,11 @@ router.get(
   getServiceOrderByUserId
 );
 
-router.get("/all-users", cache("10 minutes"), getallUser);
+router.get("/all-operators", cache("10 minutes"), getallOperators);
+router.get("/all-users", getallUser);
 router.get("/refresh", handleRefreshToken);
 router.get("/logout", logout);
-router.get("/:id", authMiddleware, isOperator, getaUser);
+router.get("/:id", getaUser);
 router.delete(
   "/update-product-cart/:cartItemId/:newQuantity",
   authMiddleware,

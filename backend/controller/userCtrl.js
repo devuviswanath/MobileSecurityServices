@@ -84,7 +84,16 @@ const loginOperator = asyncHandler(async (req, res) => {
 
 const getallUser = asyncHandler(async (req, res) => {
   try {
-    const getUsers = await User.find();
+    const getUsers = await User.find({ role: "user" });
+    res.json(getUsers);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+//Get all Operators
+const getallOperators = asyncHandler(async (req, res) => {
+  try {
+    const getUsers = await User.find({ role: "operator" });
     res.json(getUsers);
   } catch (error) {
     throw new Error(error);
@@ -94,6 +103,7 @@ const getallUser = asyncHandler(async (req, res) => {
 // Get a single user
 
 const getaUser = asyncHandler(async (req, res) => {
+  console.log("req", req.params);
   const { id } = req.params;
   validateMongoDbId(id);
   try {
@@ -345,25 +355,39 @@ const createServiceOrder = asyncHandler(async (req, res) => {
   }
 });
 
+// const getOrderByUserId = asyncHandler(async (req, res) => {
+//   const { id } = req.params;
+//   validateMongoDbId(id);
+//   try {
+//     let cachedOrders = await redisClient.get("orders");
+
+//     if (cachedOrders) {
+//       const userorders = JSON.parse(cachedOrders);
+//       console.log("Orders from Cache");
+//       res.json(userorders);
+//     } else {
+//       const userorders = await ProductOrder.find({ user: id })
+//         .populate("orderItems.product")
+//         .populate("user")
+//         .exec();
+//       res.json(userorders);
+//       console.log("User orders from Database");
+//       redisClient.set("orders", JSON.stringify(userorders));
+//     }
+//   } catch (error) {
+//     throw new Error(error);
+//   }
+// });
+
 const getOrderByUserId = asyncHandler(async (req, res) => {
   const { id } = req.params;
   validateMongoDbId(id);
   try {
-    let cachedOrders = await redisClient.get("orders");
-
-    if (cachedOrders) {
-      const userorders = JSON.parse(cachedOrders);
-      console.log("Orders from Cache");
-      res.json(userorders);
-    } else {
-      const userorders = await ProductOrder.find({ user: id })
-        .populate("orderItems.product")
-        .populate("user")
-        .exec();
-      res.json(userorders);
-      console.log("User orders from Database");
-      redisClient.set("orders", JSON.stringify(userorders));
-    }
+    const userorders = await ProductOrder.find({ user: id })
+      .populate("orderItems.product")
+      .populate("user")
+      .exec();
+    res.json(userorders);
   } catch (error) {
     throw new Error(error);
   }
@@ -388,6 +412,7 @@ module.exports = {
   loginUserCtrl,
   loginOperator,
   getallUser,
+  getallOperators,
   getaUser,
   updatedUser,
   handleRefreshToken,

@@ -4,10 +4,13 @@ const app = express();
 const dbConnect = require("./config/dbConnect");
 const dotenv = require("dotenv").config();
 const PORT = process.env.PORT || 4000;
+
 const authRouter = require("./routes/authRoute");
 const serviceRouter = require("./routes/serviceRoute");
 const productRouter = require("./routes/productRoute");
+const messageRouter = require("./routes/messageRoute");
 const Stripe = require("./routes/stripe");
+
 const { notFound, errorHandler } = require("./middlewares/errorHandler");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
@@ -53,6 +56,7 @@ app.use("/api/user", authRouter);
 app.use("/api/service", serviceRouter);
 app.use("/api/product", productRouter);
 app.use("/api/stripe", Stripe);
+app.use("/api/message", messageRouter);
 
 app.use(notFound);
 app.use(errorHandler);
