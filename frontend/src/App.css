@@ -16,6 +16,7 @@
   --color-000000: #000000;
   --color-ffffff: #ffffff;
   --color-6781de: #6781de;
+  --cardColor: rgba(229, 227, 227, 0.64);
 }
 body {
   font-family: "Rubik", sans-serif;

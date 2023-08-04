@@ -8,15 +8,22 @@ import * as yup from "yup";
 import axios from "axios";
 import { base_url } from "../utils/axiosConfig";
 import { createProductOrder, emptyCart } from "../features/user/userSlice";
+const phoneRegExp =
+  /^(\(\+[0-9]{2}\))?([0-9]{3}-?)?([0-9]{3})\-?([0-9]{4})(\/[0-9]{4})?$/;
+const emailRegExp = /^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$/;
 
 const shippingSchema = yup.object({
   fullName: yup.string().required("Full name is Required"),
   email: yup
     .string()
     .nullable()
+    .matches(emailRegExp, "Please enter a valid email (test@gmail.com)")
     .email("Email should be valid")
     .required("Email address is required"),
-  mobile: yup.string().required("Mobile Number is Required"),
+  mobile: yup
+    .string()
+    .matches(phoneRegExp, "Please enter a 10 digit valid phone number")
+    .required("Mobile Number is Required"),
   address: yup.string().required("Address Details are Required"),
   city: yup.string().required("city is Required"),
   state: yup.string().required("State is Required"),

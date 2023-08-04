@@ -7,11 +7,12 @@ import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import * as yup from "yup";
 import { forgotPassword } from "../features/user/userSlice";
-
+const emailRegExp = /^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$/;
 const ForgotPasswordSchema = yup.object({
   email: yup
     .string()
     .email("Email should be valid")
+    .matches(emailRegExp, "Please enter a valid email (test@gmail.com)")
     .required("Email address is required"),
 });
 

@@ -153,6 +153,7 @@ export const updateProfile = createAsyncThunk(
     }
   }
 );
+
 export const resetState = createAction("Reset_all");
 
 const getCustomerfromLocalStorate = localStorage.getItem("customer")

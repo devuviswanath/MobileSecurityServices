@@ -20,7 +20,6 @@ import ResetPassword from "./pages/ResetPassword";
 import Signup from "./pages/Signup";
 import SingleService from "./pages/SingleService";
 import SingleProduct from "./pages/SingleProduct";
-import TermsAndConditions from "./pages/TermsAndConditions";
 
 function App() {
   return (
@@ -46,7 +45,6 @@ function App() {
             <Route path="Signup" element={<Signup />} />
             <Route path="SingleService/:id" element={<SingleService />} />
             <Route path="SingleProduct/:id" element={<SingleProduct />} />
-            <Route path="TermsAndConditions" element={<TermsAndConditions />} />
           </Route>
         </Routes>
       </BrowserRouter>

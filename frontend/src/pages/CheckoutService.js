@@ -9,15 +9,22 @@ import { base_url } from "../utils/axiosConfig";
 import { useFormik } from "formik";
 import { getAService } from "../features/services/servicesSlice";
 import { createServiceOrder } from "../features/user/userSlice";
+const phoneRegExp =
+  /^(\(\+[0-9]{2}\))?([0-9]{3}-?)?([0-9]{3})\-?([0-9]{4})(\/[0-9]{4})?$/;
+const emailRegExp = /^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$/;
 
 const billingSchema = yup.object({
   fullName: yup.string().required("Full name is Required"),
   email: yup
     .string()
     .nullable()
+    .matches(emailRegExp, "Please enter a valid email (test@gmail.com)")
     .email("Email should be valid")
     .required("Email address is required"),
-  mobile: yup.string().required("Mobile Number is Required"),
+  mobile: yup
+    .string()
+    .matches(phoneRegExp, "Please enter a 10 digit valid phone number")
+    .required("Mobile Number is Required"),
   contract_type: yup.string().required("Contract Type is Required"),
   address: yup.string().required("Address Details are Required"),
   city: yup.string().required("city is Required"),
