@@ -1,35 +1,83 @@
-import React, { useRef } from "react";
+import React, { useState } from "react";
 import Container from "../components/Container";
 import Meta from "../components/Meta";
 import { AiOutlineHome, AiOutlineMail } from "react-icons/ai";
 import { BiPhoneCall, BiInfoCircle } from "react-icons/bi";
 import { toast } from "react-toastify";
+import { useFormik } from "formik";
+import * as yup from "yup";
 import emailjs from "@emailjs/browser";
+const phoneRegExp =
+  /^(\(\+[0-9]{2}\))?([0-9]{3}-?)?([0-9]{3})\-?([0-9]{4})(\/[0-9]{4})?$/;
+const emailRegExp = /^[a-z0-9](\.?[a-z0-9]){5,}@g(oogle)?mail\.com$/;
+const contactSchema = yup.object({
+  name: yup.string().required("FullName is Required"),
+  email: yup
+    .string()
+    .nullable()
+    .matches(emailRegExp, "Please enter a valid email (test@gmail.com)")
+    .email("Email should be valid")
+    .required("Email address is required"),
+  phone: yup
+    .string()
+    .matches(phoneRegExp, "Please enter a 10 digit valid phone number")
+    .required("Mobile number is Required"),
+  message: yup.string().required("Message is Required"),
+});
 const Contact = () => {
-  const form = useRef();
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      phone: "",
+      message: "",
+    },
+    validationSchema: contactSchema,
+    onSubmit: (values, { setSubmitting, resetForm }) => {
+      try {
+        emailjs
+          .send(
+            "service_vkow1yj",
+            "template_iywtmaq",
+            values,
+            "i5YblMb9e0ECDegph"
+          )
+          .then((result) => {
+            setSubmitting(false);
+            resetForm();
+            toast.info("Message Sent Successfully");
+            console.log(result.text);
+            console.log("Message sent");
+          });
+      } catch (error) {
+        console.log(error.text);
+        setSubmitting(false);
+      }
+    },
+  });
 
-  const sendEmail = (e) => {
-    e.preventDefault();
+  // const sendEmail = (e) => {
+  //   e.preventDefault();
 
-    emailjs
-      .sendForm(
-        "service_vkow1yj",
-        "template_iywtmaq",
-        form.current,
-        "i5YblMb9e0ECDegph"
-      )
-      .then(
-        (result) => {
-          e.target.reset();
-          toast.info("Message Sent Successfully");
-          console.log(result.text);
-          console.log("Message sent");
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
-  };
+  //   emailjs
+  //     .sendForm(
+  //       "service_vkow1yj",
+  //       "template_iywtmaq",
+  //       values,
+  //       "i5YblMb9e0ECDegph"
+  //     )
+  //     .then(
+  //       (result) => {
+  //         e.target.reset();
+  //         toast.info("Message Sent Successfully");
+  //         console.log(result.text);
+  //         console.log("Message sent");
+  //       },
+  //       (error) => {
+  //         console.log(error.text);
+  //       }
+  //     );
+  // };
   return (
     <>
       <Meta title={"Contact Us"} />
@@ -52,8 +100,8 @@ const Contact = () => {
                 <div>
                   <h3 className="contact-title">Contact</h3>
                   <form
-                    ref={form}
-                    onSubmit={sendEmail}
+                    action=""
+                    onSubmit={formik.handleSubmit}
                     className="d-flex flex-column gap-15"
                   >
                     <div>
@@ -62,7 +110,13 @@ const Contact = () => {
                         className="form-control"
                         placeholder="Name"
                         name="name"
+                        value={formik.values.name}
+                        onChange={formik.handleChange("name")}
+                        onBlur={formik.handleBlur("name")}
                       />
+                      <div className="error">
+                        {formik.touched.name && formik.errors.name}
+                      </div>
                     </div>
                     <div>
                       <input
@@ -70,7 +124,13 @@ const Contact = () => {
                         className="form-control"
                         placeholder="Email"
                         name="email"
+                        value={formik.values.email}
+                        onChange={formik.handleChange("email")}
+                        onBlur={formik.handleBlur("email")}
                       />
+                      <div className="error">
+                        {formik.touched.email && formik.errors.email}
+                      </div>
                     </div>
                     <div>
                       <input
@@ -78,7 +138,13 @@ const Contact = () => {
                         className="form-control"
                         placeholder="Mobile Number"
                         name="phone"
+                        value={formik.values.phone}
+                        onChange={formik.handleChange("phone")}
+                        onBlur={formik.handleBlur("phone")}
                       />
+                      <div className="error">
+                        {formik.touched.phone && formik.errors.phone}
+                      </div>
                     </div>
                     <div>
                       <textarea
@@ -88,14 +154,18 @@ const Contact = () => {
                         cols="30"
                         rows="4"
                         placeholder="Comments"
+                        value={formik.values.message}
+                        onChange={formik.handleChange("message")}
+                        onBlur={formik.handleBlur("message")}
                       ></textarea>
+                      <div className="error">
+                        {formik.touched.message && formik.errors.message}
+                      </div>
                     </div>
                     <div>
-                      <input
-                        type="submit"
-                        value="Send"
-                        className="button border border-dark"
-                      />
+                      <div className="mt-3 d-flex justify-content-center gap-15 align-items-center">
+                        <button className="button border-0">Send</button>
+                      </div>
                     </div>
                   </form>
                 </div>
