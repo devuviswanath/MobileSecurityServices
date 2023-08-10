@@ -1,13 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import userImage from "../images/userImage2.jpg";
 
-export default function Operators({ operators, changeChat }) {
+import { io } from "socket.io-client";
+export default function Operators({ operators, currentChat, changeChat }) {
   const [currentSelected, setCurrentSelected] = useState(undefined);
+  const user = useSelector((state) => state?.auth?.user);
+  let userId = user?._id;
+  const socket = useRef();
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);
     changeChat(contact);
   };
+  const [notifications, setNotifications] = useState([]);
+  console.log("notifications", notifications);
+  useEffect(() => {
+    if (userId) {
+      socket.current = io("ws://localhost:8800");
+      socket.current.emit("new-user-add", userId);
+    }
+  }, [userId]);
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on("recieve-notification", (res) => {
+        if (currentChat?._id == res.senderId) {
+          setNotifications(() => [{ isRead: true }]);
+        } else {
+          console.log("else");
+          setNotifications((prev) => [res, ...prev]);
+        }
+      });
+    }
+  }, []);
   return (
     <>
       {/* {userName && userId && ( */}
@@ -31,6 +56,14 @@ export default function Operators({ operators, changeChat }) {
                 <div className="username">
                   <h5>{operators.fullname}</h5>
                 </div>
+                {notifications.length > 0 &&
+                  operators?._id == notifications[0]?.senderId &&
+                  currentChat?._id !== notifications[0]?.senderId && (
+                    <span className="position-absolute translate-middle badge rounded-pill bg-danger">
+                      {notifications.length}
+                      <span className="visually-hidden">unread messages</span>
+                    </span>
+                  )}
               </div>
             );
           })}

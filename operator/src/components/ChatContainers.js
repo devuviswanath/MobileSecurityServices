@@ -13,8 +13,8 @@ import {
 
 export default function ChatContainer({ currentChat, socket }) {
   const [messages, setMessages] = useState([]);
-  console.log("messages", messages);
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  console.log("arrivalMessage", arrivalMessage);
   // const [notifications, setNotifications] = useState([]);
   // console.log("notifications", notifications);
   const scrollRef = useRef();
@@ -27,6 +27,7 @@ export default function ChatContainer({ currentChat, socket }) {
 
   const myFunction = async () => {
     if (currentChat) {
+      console.log("currentChat", currentChat);
       const response = await axios.post(recieveMessageRoute, {
         from: userId,
         to: currentChat._id,
@@ -51,23 +52,16 @@ export default function ChatContainer({ currentChat, socket }) {
     setMessages(msgs);
   };
   useEffect(() => {
+    console.log("ourside if", socket.current);
     if (socket.current) {
+      console.log("inside if", socket.current);
       socket.current.on("recieve-message", (msg) => {
-        console.log("msg -front", msg);
+        console.log("msg oerator", msg);
         setArrivalMessage({
           fromSelf: false,
           message: msg,
         });
       });
-      // socket.current.on("recieve-notification", (res) => {
-      //   console.log("red-not", res);
-      //   // const isChatOpen = currentChat?.find((id) => id === res.senderId);
-      //   if (currentChat._id === res.senderId) {
-      //     setNotifications((prev) => [{ ...res, isRead: true, ...prev }]);
-      //   } else {
-      //     setNotifications((prev) => [res, ...prev]);
-      //   }
-      // });
     }
   }, []);
   useEffect(() => {

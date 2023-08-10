@@ -15,26 +15,24 @@ export default function Chat() {
   let userId = user?._id;
   const socket = useRef();
   const [operators, setOperators] = useState([]);
-  // const [notifications, setNotifications] = useState([]);
-  // console.log("notifications", notifications);
+  const [notifications, setNotifications] = useState([]);
   useEffect(() => {
     if (userId) {
       socket.current = io("ws://localhost:8800");
       socket.current.emit("new-user-add", userId);
     }
   }, [userId]);
-  // useEffect(() => {
-  //   if (socket.current) {
-  //     socket.current.on("recieve-notification", (res) => {
-  //       if (currentChat?._id == res.senderId) {
-  //         setNotifications(() => [{ isRead: true }]);
-  //       } else {
-  //         console.log("else");
-  //         setNotifications((prev) => [res, ...prev]);
-  //       }
-  //     });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on("recieve-notification", (res) => {
+        if (currentChat?._id == res.senderId) {
+          setNotifications(() => [{ isRead: true }]);
+        } else {
+          setNotifications((prev) => [res, ...prev]);
+        }
+      });
+    }
+  }, []);
 
   useEffect(() => {
     const getOPerators = async () => {
@@ -48,7 +46,6 @@ export default function Chat() {
     getOPerators();
   }, []);
 
-  console.log("currentchat", currentChat);
   const handleChatChange = (chat) => {
     setCurrentChat(chat);
   };
@@ -56,7 +53,11 @@ export default function Chat() {
     <>
       <Container1>
         <div className="container1">
-          <Operators operators={operators} changeChat={handleChatChange} />
+          <Operators
+            operators={operators}
+            currentChat={currentChat}
+            changeChat={handleChatChange}
+          />
           {currentChat === undefined ? (
             <Welcome />
           ) : (

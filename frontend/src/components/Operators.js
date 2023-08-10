@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import userImage from "../images/userImage2.png";
 
-export default function Operators({ operators, changeChat }) {
+export default function Operators({
+  operators,
+  notifications,
+  currentChat,
+  changeChat,
+}) {
   const [currentSelected, setCurrentSelected] = useState(undefined);
 
   const changeCurrentChat = (index, contact) => {
@@ -32,6 +37,14 @@ export default function Operators({ operators, changeChat }) {
                 <div className="username">
                   <h5>{operators.fullname}</h5>
                 </div>
+                {notifications.length > 0 &&
+                  operators._id == notifications[0].senderId &&
+                  currentChat?._id !== operators._id && (
+                    <span className="position-absolute translate-middle badge rounded-pill bg-danger">
+                      {notifications.length}
+                      <span className="visually-hidden">unread messages</span>
+                    </span>
+                  )}
               </div>
             );
           })}

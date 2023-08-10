@@ -6,7 +6,6 @@ import userImage2 from "../images/userImage2.png";
 import { format } from "timeago.js";
 // import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
-import { instance } from "../utils/axiosConfig";
 import {
   sendMessageRoute,
   recieveMessageRoute,
@@ -14,16 +13,15 @@ import {
 
 export default function ChatContainer({ currentChat, socket }) {
   const [messages, setMessages] = useState([]);
-  console.log("messages-frontend", messages);
   const [arrivalMessage, setArrivalMessage] = useState(null);
-  // const [notifications, setNotifications] = useState([]);
-  // console.log("notifications", notifications);
   const scroll = useRef();
   const user = useSelector((state) => state?.auth?.user);
   let userId = user?._id;
+
   useEffect(() => {
     myFunction();
   }, [currentChat]);
+
   const myFunction = async () => {
     if (currentChat) {
       const response = await axios.post(recieveMessageRoute, {
@@ -57,14 +55,6 @@ export default function ChatContainer({ currentChat, socket }) {
           message: msg,
         });
       });
-      // socket.current.on("recieve-notification", (res) => {
-      //   // const isChatOpen = currentChat?.find((id) => id === res.senderId);
-      //   if (currentChat._id === res.senderId) {
-      //     setNotifications((prev) => [{ ...res, isRead: true, ...prev }]);
-      //   } else {
-      //     setNotifications((prev) => [res, ...prev]);
-      //   }
-      // });
     }
   }, []);
   useEffect(() => {
