@@ -14,7 +14,7 @@ export default function About() {
           <div class="background">
             <div class="col-lg-10 col-lg-offset-1">
               <div class="about-text">
-                <h2>About Us</h2>
+                <h2>About Us...</h2>
                 <p>
                   Welcome to MobileSecurityService, where we offer a
                   comprehensive range of security services including remote
